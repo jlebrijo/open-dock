@@ -5,8 +5,9 @@ command :'exec host' do |c|
   c.example "", "ops exec host example.com 'docker ps -a'"
   c.action do |args, options|
     host = args[0]
+    user = Ops::get_user_for(host)
 
-    Net::SSH.start(host, 'core') do |ssh|
+    Net::SSH.start(host, user) do |ssh|
       Docker::containers_for(host).each do |container_name, config|
         ssh.exec args[1]
       end

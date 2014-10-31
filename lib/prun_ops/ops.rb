@@ -19,4 +19,5 @@ require 'prun_ops/commands/delete_domain'
 require 'prun_ops/commands/ship_host'
 require 'prun_ops/commands/unship_host'
 require 'prun_ops/commands/exec_host'
+require 'prun_ops/commands/provision_host'
 

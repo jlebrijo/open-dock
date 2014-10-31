@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'commander/import'
 require 'net/ssh'
+require 'prun_ops/base'
 require 'prun_ops/digitalocean'
 require 'prun_ops/docker'
 require 'prun_ops/version'
@@ -18,3 +19,4 @@ require 'prun_ops/commands/delete_domain'
 require 'prun_ops/commands/ship_host'
 require 'prun_ops/commands/unship_host'
 require 'prun_ops/commands/exec_host'
+

@@ -2,8 +2,7 @@ require 'droplet_kit'
 require 'yaml'
 
 module DigitalOcean
-  OPS_DIR = "ops"
-  CONFIG_FILE = "#{OPS_DIR}/providers/digitalocean.yml"
+  CONFIG_FILE = "#{Ops::PROVIDERS_DIR}/digitalocean.yml"
 
   def self.client
     begin
@@ -14,10 +13,10 @@ module DigitalOcean
     DropletKit::Client.new(access_token: config["token"])
   end
 
-  def self.build_droplet(name)
+  def self.build_droplet(host_name)
     begin
-      params = YAML.load_file "#{OPS_DIR}/hosts/#{name}.yml"
-      params["name"]= name
+      params = YAML.load_file "#{Ops::DIR}/hosts/#{host_name}.yml"
+      params["name"]= host_name
     rescue
       raise "Please, create '#{CONFIG_FILE}' file with token value"
     end
@@ -27,8 +26,8 @@ end
 
 module DropletKit
   class Client
-    def find_droplet_by_name(name)
-      self.droplets.all.find{|d| d.name == name}
+    def find_droplet_by_name(host_name)
+      self.droplets.all.find{|d| d.name == host_name}
     end
   end
 end

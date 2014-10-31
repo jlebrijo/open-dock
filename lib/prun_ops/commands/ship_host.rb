@@ -1,14 +1,14 @@
 command :'ship host' do |c|
   c.summary = 'Create Docker containers defined in ops/containers/[host_name].yml'
   c.syntax = 'ops ship host [host_name]'
-  c.description = "Create all docker containers described in #{DigitalOcean::OPS_DIR}/containers/[host_name].yml"
-  c.example "Create a container called 'www' in the host example.com. This is described in '#{DigitalOcean::OPS_DIR}/containers/example.com.yml' like:\n    #      www:\n    #        detach: true\n    #        image: jlebrijo/prun\n    #        ports:\n    #          - '2222:22'\n    #          - '80:80'", 'ops ship host example.com'
+  c.description = "Create all docker containers described in #{Ops::CONTAINERS_DIR}/[host_name].yml"
+  c.example "Create a container called 'www' in the host example.com. This is described in '#{Ops::CONTAINERS_DIR}/example.com.yml' like:\n    #      www:\n    #        detach: true\n    #        image: jlebrijo/prun\n    #        ports:\n    #          - '2222:22'\n    #          - '80:80'", 'ops ship host example.com'
   c.action do |args, options|
     host = args[0]
-    containers = Docker::containers_for host
+    user = Ops::get_user_for(host)
 
-    Net::SSH.start(host, 'core') do |ssh|
-      containers.each do |container_name, config|
+    Net::SSH.start(host, user) do |ssh|
+      Docker::containers_for(host).each do |container_name, config|
         ports = config["ports"].map{|port| "-p #{port}"}.join(" ")
         options = []
         config.reject{|k| Docker::ARGUMENTS.include? k}.each do |option, value|

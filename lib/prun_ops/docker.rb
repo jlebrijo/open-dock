@@ -3,10 +3,9 @@ require 'yaml'
 
 module Docker
   ARGUMENTS = ["image", "ports", "command"]
-  CONFIG_DIR = "#{DigitalOcean::OPS_DIR}/containers"
 
   def self.containers_for(host_name)
-    config_file = "#{CONFIG_DIR}/#{host_name}.yml"
+    config_file = "#{Ops::CONTAINERS_DIR}/#{host_name}.yml"
     begin
       config = YAML.load_file config_file
     rescue

@@ -14,7 +14,7 @@ command :'ship host' do |c|
         config.reject{|k| Docker::ARGUMENTS.include? k}.each do |option, value|
           options << "--#{option}=#{value}"
         end
-        say "\nContainer '#{container_name}' loading on #{host}, please wait ....\n"
+        say "Container '#{container_name}' loading on #{host}, please wait ....\n"
         ssh.exec! "docker run #{options.join(" ")} --name #{container_name} #{ports} #{config["image"]} #{config["command"]}"
 
       end

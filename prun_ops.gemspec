@@ -11,15 +11,18 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Encapsulates Operations commands needed for a Rails Application.}
   spec.description   = %q{Encapsulates Operations commands for Rails Applications: Provision, Configure, Deploy, Diagnose, Version Releasing and Backup.}
   spec.homepage      = "http://www.lebrijo.com"
-  spec.license       = "MIT"
+  spec.license       = "GPLv3"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
+  spec.executables   = ['ops']
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake", "~> 10.0"
 
   spec.add_runtime_dependency "capistrano-rails"
+  spec.add_runtime_dependency "commander"
+  spec.add_runtime_dependency "droplet_kit"
 end

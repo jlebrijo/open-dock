@@ -10,7 +10,7 @@ command :'ship host' do |c|
     Docker::containers_for(host).each do |container_name, config|
       ports = config["ports"].map{|port| "-p #{port}"}.join(" ")
       options = []
-      config.reject{|k| Docker::ARGUMENTS.include? k}.each do |option, value|
+      config.reject{|k| Docker::SPECIAL_OPTS.include? k}.each do |option, value|
         options << "--#{option}=#{value}"
       end
       say "Container '#{container_name}' loading on #{host}, please wait ....\n"

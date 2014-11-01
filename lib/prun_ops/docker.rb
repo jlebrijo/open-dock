@@ -2,7 +2,7 @@ require 'droplet_kit'
 require 'yaml'
 
 module Docker
-  ARGUMENTS = ["image", "ports", "command", "post-conditions"]
+  SPECIAL_OPTS = ["image", "ports", "command", "post-conditions"]
 
   def self.containers_for(host_name)
     config_file = "#{Ops::CONTAINERS_DIR}/#{host_name}.yml"

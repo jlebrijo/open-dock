@@ -7,17 +7,18 @@ command :'ship host' do |c|
     host = args[0]
     user = Ops::get_user_for(host)
 
-    Net::SSH.start(host, user, timeout: 3000) do |ssh|
-      Docker::containers_for(host).each do |container_name, config|
-        ports = config["ports"].map{|port| "-p #{port}"}.join(" ")
-        options = []
-        config.reject{|k| Docker::ARGUMENTS.include? k}.each do |option, value|
-          options << "--#{option}=#{value}"
-        end
-        say "Container '#{container_name}' loading on #{host}, please wait ....\n"
-        ssh.exec "docker run #{options.join(" ")} --name #{container_name} #{ports} #{config["image"]} #{config["command"]}"
-
+    Docker::containers_for(host).each do |container_name, config|
+      ports = config["ports"].map{|port| "-p #{port}"}.join(" ")
+      options = []
+      config.reject{|k| Docker::ARGUMENTS.include? k}.each do |option, value|
+        options << "--#{option}=#{value}"
       end
+      say "Container '#{container_name}' loading on #{host}, please wait ....\n"
+      Net::SSH.start(host, user) do |ssh|
+        ssh.exec "docker run #{options.join(" ")} --name #{container_name} #{ports} #{config["image"]} #{config["command"]}"
+      end
+      sleep 5
+      config["post-conditions"].each { |c| system c }
     end
   end
 end

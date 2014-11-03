@@ -19,7 +19,7 @@ task :get_config do
   @password = config[@environment]["password"]
 end
 
-def argument
+def filename
   name = ARGV[1]
   task name.to_sym do ; end unless name.nil?
   return name ? name : "tmp/db.sql"

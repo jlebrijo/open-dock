@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 
-require 'prun_ops/ops'
+require 'prun-ops/ops'

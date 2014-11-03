@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'prun_ops/version'
+require 'prun-ops/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "prun_ops"
+  spec.name          = "prun-ops"
   spec.version       = PrunOps::VERSION
   spec.authors       = ["Juan Lebrijo"]
   spec.email         = ["juan@lebrijo.com"]

@@ -21,7 +21,14 @@ namespace :files do
   task :pull do
     on roles(:app) do |host|
       run_locally do
-        execute "scp -r -P #{host.port} #{host.user}@#{host.hostname}:#{current_path}/public/uploads public/"
+        if fetch(:backup_dirs).any?
+          fetch(:backup_dirs).each do |dir|
+            execute "scp -r -P #{host.port} #{host.user}@#{host.hostname}:#{current_path}/#{dir} #{dir}"
+          end
+        else
+          error ":    Set key :backup_dirs to know which ones to pull"
+        end
+
       end
     end
   end

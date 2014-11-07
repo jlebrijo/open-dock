@@ -1,4 +1,5 @@
 require "prun-ops/cap/diagnosis"
+require "prun-ops/cap/pull"
 require "prun-ops/cap/backup"
 
 set :backup_dirs, []

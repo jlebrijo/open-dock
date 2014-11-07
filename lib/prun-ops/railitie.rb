@@ -4,8 +4,9 @@ module PrunOps
   class Railtie < Rails::Railtie
     rake_tasks do
       load "tasks/backup.rake"
+      load "tasks/db.rake"
+      load "tasks/http.rake"
       load "tasks/version.rake"
-      load "tasks/ops.rake"
     end
   end
 end

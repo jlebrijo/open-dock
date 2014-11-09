@@ -1,5 +1,5 @@
 namespace :backup do
-  desc 'Restore data from git repo'
+  desc 'Restore data from git repo, last backup by default'
   task :restore, :tag do |task, args|
     on roles(:app) do
       within release_path do

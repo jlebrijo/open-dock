@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["juan@lebrijo.com"]
   spec.summary       = %q{Encapsulates Operations commands needed for a Rails Application.}
   spec.description   = %q{Encapsulates Operations commands for Rails Applications: Provision, Configure, Deploy, Diagnose, Version Releasing and Backup.}
-  spec.homepage      = "http://www.lebrijo.com"
-  spec.license       = "GPLv3"
+  spec.homepage      = "http://github.com/jlebrijo/prun-ops"
+  spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

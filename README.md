@@ -184,7 +184,9 @@ Note: Remember change this line in production.rb file: `config.assets.compile = 
 ### Deployment
 
 * `cap [stg] deploy` deploy your app as usual
-* `cap [stg] deploy:restart` restart thin server
+* `cap [stg] deploy:restart` restart thin server of this application
+* `cap [stg] deploy:stop` stop thin server
+* `cap [stg] deploy:start` start thin server
 * `cap [stg] db:setup` load schema and seeds for first DB setup
 
 ### Backup
@@ -245,3 +247,14 @@ Some capistrano commands useful to connect to server and help with the problem s
 ## License
 
 [MIT License](http://opensource.org/licenses/MIT). Made by [Lebrijo.com](http://lebrijo.com)
+
+## Release notes
+
+### v0.0.2
+
+* First publication
+
+### v0.0.3
+
+* Changing homepage and License
+* start|stop|restart thin server per application as Capistrano task

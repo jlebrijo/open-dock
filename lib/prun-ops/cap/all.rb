@@ -6,10 +6,12 @@ set :backup_dirs, []
 
 namespace :deploy do
 
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute "service thin restart"
+  %w(start stop restart).each do |action|
+    desc "#{action.capitalize} application"
+    task :"#{action}" do
+      on roles(:app) do
+        execute "service #{fetch :application} #{action}"
+      end
     end
   end
 

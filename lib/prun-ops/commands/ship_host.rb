@@ -16,7 +16,7 @@ command :'ship host' do |c|
       say "Container '#{container_name}' loading on #{host}, please wait ....\n"
       Net::SSH.start(host, user) do |ssh|
         command = "docker run #{options.join(" ")} --name #{container_name} #{ports} #{config["image"]} #{config["command"]}"
-        say "Docker CMD: #{command}"
+        say "Docker CMD: #{command}\n"
         ssh.exec command
       end
       sleep 5

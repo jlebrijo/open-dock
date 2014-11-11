@@ -254,7 +254,11 @@ Some capistrano commands useful to connect to server and help with the problem s
 
 * First publication
 
-### v0.0.3
+### v0.0.4
 
 * Changing homepage and License
 * start|stop|restart thin server per application as Capistrano task
+
+### v0.0.5
+
+* Removing Application server version (thin 1.6.2) dependency

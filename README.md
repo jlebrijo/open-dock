@@ -262,3 +262,7 @@ Some capistrano commands useful to connect to server and help with the problem s
 ### v0.0.5
 
 * Removing Application server version (thin 1.6.2) dependency
+
+### v0.0.6
+
+* Fixing DigitalOcean images error when slug is nil for client images

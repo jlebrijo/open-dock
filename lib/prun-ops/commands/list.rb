@@ -18,7 +18,7 @@ command :list do |c|
 
     say "\nImages:"
     cli.images.all.each do |i|
-      say "   - #{i.slug.ljust(20)} =>   #{i.distribution} #{i.name}"
+      say "   - #{i.slug.ljust(20)} =>   #{i.distribution} #{i.name}" unless i.slug.nil?
     end
 
     say "\nSSH Keys:"

@@ -269,3 +269,7 @@ Some capistrano commands useful to connect to server and help with the problem s
 
 * Fixing DigitalOcean images error when slug is nil for client images
 * Adding git:ff rake task
+
+### v0.0.8
+
+* Adding backup[tag] capistrano task for production

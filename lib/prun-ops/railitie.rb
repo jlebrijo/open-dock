@@ -5,6 +5,7 @@ module PrunOps
     rake_tasks do
       load "tasks/backup.rake"
       load "tasks/db.rake"
+      load "tasks/git.rake"
       load "tasks/http.rake"
       load "tasks/version.rake"
     end

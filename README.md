@@ -226,6 +226,8 @@ Release management
 
 ![Release management](https://docs.google.com/drawings/d/1IEWCIhDFqREVVjSwM9bPfVpyNm3jIoNF4Xn8y-dZHTg/pub?w=871&h=431  "Release management")
 
+* `rake git:ff` merge dev branch towards master branch without releasing
+
 ### Diagnosis
 
 Some capistrano commands useful to connect to server and help with the problem solving.
@@ -266,3 +268,4 @@ Some capistrano commands useful to connect to server and help with the problem s
 ### v0.0.6
 
 * Fixing DigitalOcean images error when slug is nil for client images
+* Adding git:ff rake task

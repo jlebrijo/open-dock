@@ -273,3 +273,7 @@ Some capistrano commands useful to connect to server and help with the problem s
 ### v0.0.8
 
 * Adding backup[tag] capistrano task for production
+
+### v0.0.9
+
+* Fixing Capistrano pulling tasks "pull:data"

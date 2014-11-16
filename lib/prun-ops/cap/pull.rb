@@ -1,8 +1,8 @@
 namespace :pull do
   desc 'Pull data (db/files) from remote (i.e: production) application.'
   task :data do
-    invoke "files:pull"
-    invoke "db:pull"
+    invoke "pull:files"
+    invoke "pull:db"
   end
 
   desc 'Pull db'

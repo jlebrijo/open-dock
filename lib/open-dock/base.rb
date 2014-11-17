@@ -1,8 +1,7 @@
 module Ops
-  DIR = "ops"
-  HOSTS_DIR = "#{DIR}/hosts"
-  CONTAINERS_DIR = "#{DIR}/containers"
-  PROVIDERS_DIR = "#{DIR}/providers"
+  HOSTS_DIR = "hosts"
+  CONTAINERS_DIR = "containers"
+  PROVIDERS_DIR = "providers"
 
 
   def self.get_user_for(host_name)

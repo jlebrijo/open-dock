@@ -15,7 +15,7 @@ module DigitalOcean
 
   def self.build_droplet(host_name)
     begin
-      params = YAML.load_file "#{Ops::DIR}/hosts/#{host_name}.yml"
+      params = YAML.load_file "#{Ops::HOSTS_DIR}/#{host_name}.yml"
       params["name"]= host_name
     rescue
       raise "Please, create '#{CONFIG_FILE}' file with token value"

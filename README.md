@@ -126,23 +126,25 @@ www:
 
 Create containers at host: `ops ship host example.com`
 
-### Commands
-
-Create/delete domain names, create/delete hosts and ship/unship hosts:
-
-* `ops create host HOST_NAME` create the host defined by the name of the file in the 'ops/hosts' folder.
-* `ops delete host HOST_NAME`
-* `ops create domain DOMAIN_NAME [IP_ADDRESS]` create a domain to be managed by DigitalOcean.
-* `ops delete domain DOMAIN_NAME [IP_ADDRESS]`
-* `ops ship host HOST_NAME` run the containers in the host.
-* `ops unship host HOST_NAME`
-
 ### TODO: Configuration with Chef
 
 Configuration with chef commands
 
-* `ops configure host HOST_NAME`: configure with chef all containers in host. Here you need to install knife-solo gem.
-    * knife solo cook [container_user]@[container_dns_name] -p [container_ssh_port]
+* `ops configure CONTAINER_NAME HOST_NAME`: configure with chef a container in host. Here you need to install knife-solo gem.
+    * knife solo cook [container_user]@[HOST_NAME] -p [container_ssh_port]
+
+### Commands
+
+Create/delete domain names, create/delete hosts and ship/unship hosts:
+
+* `ops create HOST_NAME` create the host defined by the name of the file in the 'ops/hosts' folder.
+* `ops delete HOST_NAME`
+* TODO: `ops recreate HOST_NAME` delete/create the host.
+* `ops ship HOST_NAME` run the containers in the host.
+* `ops unship HOST_NAME`
+* TODO: `ops reship HOST_NAME` unship/ship all containers from host.
+* TODO: `ops configure CONTAINER_NAME HOST_NAME` configure container with chef.
+
 
 ## Contributing
 
@@ -161,3 +163,9 @@ Configuration with chef commands
 ### v0.0.10
 
 * First publication: split 'open-dock' gem from 'prun-ops' gem 
+
+### v0.0.11
+
+* Remove create/delete domain commands
+* Remove "host" word from all commands
+* Remove /ops folder from providers, hosts and containers subfolders

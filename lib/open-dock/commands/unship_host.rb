@@ -1,8 +1,8 @@
-command :'unship host' do |c|
+command :unship do |c|
   c.summary = 'Removes all Docker containers defined for the host in '#{Ops::CONTAINERS_DIR}/[host_name].yml'
-  c.syntax = 'ops ship host [host_name]'
+  c.syntax = 'ops ship [host_name]'
   c.description = "Removes all Docker containers defined for the host in '#{Ops::CONTAINERS_DIR}/[host_name].yml"
-  c.example "", 'ops unship host example.com'
+  c.example "", 'ops unship example.com'
   c.action do |args, options|
     host = args[0]
     user = Ops::get_user_for(host)

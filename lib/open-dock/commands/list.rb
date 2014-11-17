@@ -1,7 +1,7 @@
 command :list do |c|
   c.summary = 'List all droplet creation parameters'
   c.syntax = 'ops list'
-  c.description = "This shows a list in the format '- [id] =>  [description]'. Use [id] values to create your host file in #{Ops::DIR}/hosts/[dns_name].yml "
+  c.description = "This shows a list in the format '- [id] =>  [description]'. Use [id] values to create your host file in #{Ops::HOSTS_DIR}[dns_name].yml "
   c.action do |args, options|
     cli = DigitalOcean::client
     say "\nDESCRIPTION: #{c.description}\n"

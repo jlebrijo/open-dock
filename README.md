@@ -61,13 +61,12 @@ TODO: `ops init` to create this structure
 Structure:
 
 ```
-ops
-  providers
-    digitalocean.yml
-  hosts
-    example.com.yml
-  containers
-    example.com.yml
+providers
+  digitalocean.yml
+hosts
+  example.com.yml
+containers
+  example.com.yml
 ```
 
 #### Provider file syntax
@@ -79,6 +78,8 @@ For a Digital Ocean provider create a file (ops/providers/digitalocean.yml) with
 ```yml
 token: a206ae60dda6bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcf0cbf41
 ```
+
+Token can be activated in your DigitaOcean console > Apps & API > Generate new token. Be sure to give write premissions.
 
 #### Host file syntax
 

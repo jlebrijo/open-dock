@@ -1,4 +1,4 @@
-command :'ship host' do |c|
+command :ship do |c|
   c.summary = 'Create Docker containers defined in ops/containers/[host_name].yml'
   c.syntax = 'ops ship host [host_name]'
   c.description = "Create all docker containers described in #{Ops::CONTAINERS_DIR}/[host_name].yml"

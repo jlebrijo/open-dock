@@ -1,4 +1,4 @@
-command :'exec host' do |c|
+command :exec do |c|
   c.summary = 'Execute a command in host'
   c.description = "Execute a command in host defined by DNS_name"
   c.syntax = 'ops exec [host_name] "[command]"'

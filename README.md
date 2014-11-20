@@ -23,7 +23,148 @@ Or install it yourself as:
     $ gem install open-dock
 
 
-## Usage: Provision with OPS command
+
+
+## Initialize project
+
+TODO: `ops init` to create folder structure and example files
+
+Structure:
+
+```
+providers
+  digital_ocean.yml
+  google_cloud.yml
+hosts
+  example.com.yml
+containers
+  example.com.yml
+```
+
+## Configure PROVIDER
+
+`ops list` command will list all providers suported by this gem.
+
+TODO: Create more providers (aws, linode, gcloud, ...)
+
+### Digital Ocean
+
+For a Digital Ocean provider create a file (ops/providers/digitalocean.yml) with your account API key:
+
+```yml
+token: a206ae60dda6bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcf0cbf41
+```
+
+Token can be activated in your DigitaOcean console > Apps & API > Generate new token. Be sure to give write premissions.
+
+### Google Cloud
+
+To configure Google Cloud provider create a file (ops/providers/digitalocean.yml) with these params:
+
+```yml
+google_client_email: "850xxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxtauvbl@developer.gserviceaccount.com"
+google_project: "project_name"
+google_key_location: "path_to_your_p12_file"
+```
+
+You can see how to create ‘google_key_location’ and ‘google_client_email’ at https://developers.google.com/accounts/docs/OAuth2ServiceAccount#creatinganaccount
+
+## Configure HOST
+
+With these files you can configure your instances/servers/droplets/ships on every provider you have configured in the last point.
+
+### Digital Ocean Host
+
+For a Digital Ocean host we can make the following file (ops/hosts/example.com.yml):
+
+```yml
+provider: digital_ocean
+user: core   # User to connect the host
+# Values to configure DigitalOcean machine
+size:     1gb
+region:   ams3
+image:    coreos-stable
+ssh_keys:
+  - e7:51:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:88:57
+```
+
+Helpful commands:
+
+* `ops list digital_ocean` list all possible parameter values to use in the yml file
+* `ops create example.com` will create your host
+
+### Google Cloud Host
+
+For a Google Cloud host we can make the following file (ops/hosts/example.com.yml):
+
+```yml
+provider: google_cloud
+user: core   # User to connect the host
+# Values to configure GoogleCloud machine
+machine_type: g1-small
+zone_name: europe-west1-b
+public_key_path: ~/.ssh/id_rsa.pub
+source_image: coreos-stable-444-5-0-v20141016
+disk_size_gb: 10
+```
+
+Helpful commands:
+
+* `ops list google_cloud` list all possible parameter values to use in the yml file
+* `ops create example.com` will create your host
+
+##Configure hosted CONTAINERS (Docker)
+
+In this file we can configure all containers to run in the host provided in the name:
+
+```yml
+www:
+  image: jlebrijo/prun
+  ports:
+    - '2222:22'
+    - '80:80'
+#  command: /bin/bash
+
+# OPTIONS: use the long name of the options, 'detach' instead of '-d'
+  detach: true
+#  interactive: true
+#  memory: 8g
+#  cpuset: 0-7
+
+# POST-CONDITIONS: execute after build the container:
+  post-conditions:
+    - sshpass -p 'J3mw?$_6' ssh-copy-id -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa.pub root@lebrijo.com -p 2222
+    - ssh root@lebrijo.com -p 2222 "echo 'root:K8rt$_?1' | chpasswd"
+
+# here you can create other containers
+# db:
+#   image: ubuntu/postgresql
+```
+
+`ops ship example.com` will create all containers configured on 'containers/example.com.yml' file
+
+## TODO: Configure Containers (are nodes, with  Chef)
+
+Configuration with chef commands
+
+* `ops configure CONTAINER_NAME HOST_NAME`: configure with chef a container in host. Here you need to install knife-solo gem.
+    * knife solo cook [container_user]@[HOST_NAME] -p [container_ssh_port]
+
+## Commands
+
+Create/delete domain names, create/delete hosts and ship/unship hosts:
+
+* TODO: `ops init` initialize needed folders and example files
+* `ops create HOST_NAME` create the host defined by the name of the file in the 'ops/hosts' folder.
+* `ops delete HOST_NAME`
+* TODO: `ops recreate HOST_NAME` delete/create the host.
+* `ops exec HOST_NAME "COMMAND"` execute any command on a host remotely (i.e. ops exec example.com 'docker ps -a')
+* `ops ship HOST_NAME` run the containers in the host.
+* `ops unship HOST_NAME`
+* TODO: `ops reship HOST_NAME` unship/ship all containers from host.
+* TODO: `ops configure CONTAINER_NAME HOST_NAME` configure container with chef.
+
+## Create your infrastructure project (/ops)
 
 OPS command is focused to cover first Provision configurations for a the Operations of your infrastructure.
 
@@ -54,99 +195,6 @@ To avoid `bundle exec` repfix: `bundle install --binstubs .bundle/bin`
 
 Or integrate it within your Chef infrastructure project. Just add the gem to your Gemfile.
 
-### Folder Structure
-
-TODO: `ops init` to create this structure
-
-Structure:
-
-```
-providers
-  digitalocean.yml
-hosts
-  example.com.yml
-containers
-  example.com.yml
-```
-
-#### Provider file syntax
-
-TODO: Create more providers (aws, linode, gcloud, ...)
-
-For a Digital Ocean provider create a file (ops/providers/digitalocean.yml) with your account API key:
-
-```yml
-token: a206ae60dda6bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcf0cbf41
-```
-
-Token can be activated in your DigitaOcean console > Apps & API > Generate new token. Be sure to give write premissions.
-
-#### Host file syntax
-
-For a Digital Ocean host we can make the following file (ops/hosts/example.com.yml):
-
-```yml
-user: core   # User to connect the host
-# Values to configure DigitalOcean machine
-size:     1gb
-region:   ams3
-image:    coreos-stable
-ssh_keys:
-  - e7:51:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:88:57
-```
-
-And create the host: `ops create host example.com`
-
-### Containers file syntax
-
-In this file we can configure all containers to run in the host provided in the name:
-
-```yml
-www:
-  image: jlebrijo/prun
-  ports:
-    - '2222:22'
-    - '80:80'
-#  command: /bin/bash
-
-# OPTIONS: use the long name of the options, 'detach' instead of '-d'
-  detach: true
-#  interactive: true
-#  memory: 8g
-#  cpuset: 0-7
-
-# POST-CONDITIONS: execute after build the container:
-  post-conditions:
-    - sshpass -p 'J3mw?$_6' ssh-copy-id -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa.pub root@lebrijo.com -p 2222
-    - ssh root@lebrijo.com -p 2222 "echo 'root:K8rt$_?1' | chpasswd"
-
-# here you can create other containers
-# db:
-#   image: ubuntu/postgresql
-```
-
-Create containers at host: `ops ship host example.com`
-
-### TODO: Configuration with Chef
-
-Configuration with chef commands
-
-* `ops configure CONTAINER_NAME HOST_NAME`: configure with chef a container in host. Here you need to install knife-solo gem.
-    * knife solo cook [container_user]@[HOST_NAME] -p [container_ssh_port]
-
-### Commands
-
-Create/delete domain names, create/delete hosts and ship/unship hosts:
-
-* `ops create HOST_NAME` create the host defined by the name of the file in the 'ops/hosts' folder.
-* `ops delete HOST_NAME`
-* TODO: `ops recreate HOST_NAME` delete/create the host.
-* `ops ship HOST_NAME` run the containers in the host.
-* `ops unship HOST_NAME`
-* TODO: `ops reship HOST_NAME` unship/ship all containers from host.
-* TODO: `ops configure CONTAINER_NAME HOST_NAME` configure container with chef.
-
-
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/open-dock/fork )
@@ -170,3 +218,9 @@ Create/delete domain names, create/delete hosts and ship/unship hosts:
 * Remove create/delete domain commands
 * Remove "host" word from all commands
 * Remove /ops folder from providers, hosts and containers subfolders
+
+### v0.0.13
+
+* Added Google Cloud as provider
+* Now providers files are called underscored: digital_ocean, google_cloud ....
+* In hosts YAML files we should include which provider will be built (i.e. provider: digital_ocean)

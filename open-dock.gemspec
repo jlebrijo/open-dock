@@ -24,4 +24,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "commander"
   spec.add_runtime_dependency "droplet_kit"
+  spec.add_runtime_dependency "fog"
+  spec.add_runtime_dependency "google-api-client"
 end

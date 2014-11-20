@@ -10,5 +10,6 @@ program :name, 'ops'
 program :version, OpenDock::VERSION
 program :description, 'Encapsulates Operations commands for complex server clouds: Provision and Configuration from all possible providers such as DigitalOcean, Google Cloud, Rackspace, Linode,...'
 program :help_formatter, :compact
+program :help, 'Author', 'Juan Lebrijo <juan@lebrijo.com>'
 
 Dir.glob("#{File.dirname(__FILE__)}/commands/*.rb").each { |r| load r }

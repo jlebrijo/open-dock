@@ -1,29 +1,16 @@
 command :list do |c|
   c.summary = 'List all droplet creation parameters'
-  c.syntax = 'ops list'
-  c.description = "This shows a list in the format '- [id] =>  [description]'. Use [id] values to create your host file in #{Ops::HOSTS_DIR}[dns_name].yml "
+  c.syntax = 'ops list |provider|'
+  c.description = "List all possible providers, and all possible params for a provider if |provider| is defined"
+  c.example "List all possible providers", "ops list"
+  c. example "List all possible arguments for DigitalOcean", "ops list digital_ocean"
   c.action do |args, options|
-    cli = DigitalOcean::client
-    say "\nDESCRIPTION: #{c.description}\n"
-
-    say "\nSizes:"
-    cli.sizes.all.each do |i|
-      say "   - #{i.slug.ljust(6)} =>   $#{i.price_monthly}/mo"
+    if args[0]
+      say "\nDESCRIPTION: This shows a list in the format '- [id] =>  [description]'. Use [id] values to create your host file in #{Ops::HOSTS_DIR}/[dns_name].yml\n"
+      ProviderFactory.build(args[0]).list_params
+    else
+      ProviderFactory.list_providers
     end
 
-    say "\nRegions:"
-    cli.regions.all.each do |i|
-      say "   - #{i.slug.ljust(6)} =>   #{i.name}"
-    end
-
-    say "\nImages:"
-    cli.images.all.each do |i|
-      say "   - #{i.slug.ljust(20)} =>   #{i.distribution} #{i.name}" unless i.slug.nil?
-    end
-
-    say "\nSSH Keys:"
-    cli.ssh_keys.all.each do |i|
-      say "   - #{i.fingerprint} =>   #{i.name}"
-    end
   end
 end

@@ -4,13 +4,7 @@ command :delete do |c|
   c.description = "Delete the host, based on DNS_name, which (not need but) should be described in its #{Ops::HOSTS_DIR}/[DNS_name].yml file  "
   c.example 'Delete the host example.com in your DigitalOcean console', 'ops delete example.com'
   c.action do |args, options|
-    cli = DigitalOcean::client
-    id = cli.find_droplet_by_name(args[0]).id
-    resp = cli.droplets.delete id: id
-    if resp.is_a?(TrueClass)
-      say "Droplet #{args[0]} succesfully deleted!"
-    else
-      raise resp
-    end
+    host = Host.new args[0]
+    host.delete
   end
 end

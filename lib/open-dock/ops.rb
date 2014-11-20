@@ -2,7 +2,7 @@ require 'rubygems'
 require 'commander/import'
 require 'net/ssh'
 require 'open-dock/base'
-require 'open-dock/digitalocean'
+require 'open-dock/providers'
 require 'open-dock/docker'
 require 'open-dock/version'
 

@@ -2,8 +2,14 @@ require 'yaml'
 require 'active_support/inflector'
 
 class Provider
-  def initialize(provider_name)
-
+  def initialize
+    config_file = "#{Ops::PROVIDERS_DIR}/#{self.class.name.underscore}.yml"
+    begin
+      config = YAML.load_file config_file
+    rescue
+      raise "Please, create '#{config_file}' file following gem instrunctions"
+    end
+    create_connection config
   end
   def create(config)
     raise "CREATE action not implemented"
@@ -13,6 +19,11 @@ class Provider
   end
   def list_params
     raise "LIST PARAMS action not implemented"
+  end
+
+  private
+  def create_connection(config)
+    raise "PROVIDER connection should be created"
   end
 end
 

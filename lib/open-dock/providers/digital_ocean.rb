@@ -2,16 +2,6 @@ require 'droplet_kit'
 
 class DigitalOcean < Provider
 
-  def initialize
-    config_file = "#{Ops::PROVIDERS_DIR}/#{self.class.name.underscore}.yml"
-    begin
-      config = YAML.load_file config_file
-    rescue
-      raise "Please, create '#{config_file}' file with token value"
-    end
-    @connection = DropletKit::Client.new(access_token: config["token"])
-  end
-
   def create(config)
     droplet = DropletKit::Droplet.new config
     resp = @connection.droplets.create droplet
@@ -60,6 +50,11 @@ class DigitalOcean < Provider
     @connection.ssh_keys.all.each do |i|
       say "   - #{i.fingerprint} =>   #{i.name}"
     end
+  end
+
+  private
+  def create_connection(config)
+    @connection = DropletKit::Client.new(access_token: config["token"])
   end
 end
 

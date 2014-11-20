@@ -5,19 +5,6 @@ I18n.enforce_available_locales = false
 
 class GoogleCloud < Provider
 
-  def initialize
-    config_file = "#{Ops::PROVIDERS_DIR}/#{self.class.name.underscore}.yml"
-    begin
-      config = YAML.load_file config_file
-    rescue
-      raise "Please, create '#{config_file}' file with token value"
-    end
-    @connection = Fog::Compute.new provider: "Google",
-                                   google_client_email: config["google_client_email"],
-                                   google_project: config["google_project"],
-                                   google_key_location: config["google_key_location"]
-  end
-
   def create(config)
     say "Creating Disk and Server instance, please wait ..."
     disk = @connection.disks.create name: config["name"].parameterize,
@@ -63,5 +50,13 @@ class GoogleCloud < Provider
       say "   - #{i.name.ljust(40)} =>   #{i.description}\n"
     end
 
+  end
+
+  private
+  def create_connection(config)
+    @connection = Fog::Compute.new provider: "Google",
+                                   google_client_email: config["google_client_email"],
+                                   google_project: config["google_project"],
+                                   google_key_location: config["google_key_location"]
   end
 end

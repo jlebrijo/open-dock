@@ -35,17 +35,17 @@ class GoogleCloud < Provider
   end
 
   def list_params
+    say "\nZones"
+    @connection.zones.each do |i|
+      say "   - #{i.name}"
+    end
+
     say "\nMachine types:"
     @connection.flavors.group_by(&:zone).each do |zone, flavors|
       say "    Zone #{zone}:"
       flavors.each do |i|
         say "       - #{i.name.ljust(16)} =>   #{i.description}"
       end
-    end
-
-    say "\nZones"
-    @connection.zones.each do |i|
-      say "   - #{i.name}"
     end
 
     say "\nImages:"

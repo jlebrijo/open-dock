@@ -17,7 +17,7 @@ class DigitalOcean < Provider
     resp = @connection.droplets.create droplet
     if resp == droplet
       ip = @connection.find_droplet_by_name(config["name"]).networks["v4"].first.ip_address
-      say "Droplet #{config["name"]} (IP: #{ip}) succesfully created!"
+      say "Droplet #{config["name"]} (IP: #{ip}) successfully created!"
     else
       raise resp
     end
@@ -34,7 +34,7 @@ class DigitalOcean < Provider
     end
 
     if resp.is_a?(TrueClass)
-      say "Droplet #{host} succesfully deleted!"
+      say "Droplet #{host} successfully deleted!"
     else
       raise resp
     end

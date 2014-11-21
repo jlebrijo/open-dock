@@ -79,8 +79,6 @@ google_project: "project_name"
 google_key_location: "path_to_your_p12_file"
 ```
 
-You can see how to create  at https://developers.google.com/accounts/docs/OAuth2ServiceAccount#creatinganaccount
-
 ## Configure HOST
 
 With these files you can configure your instances/servers/droplets/ships on every provider you have configured in the last point.

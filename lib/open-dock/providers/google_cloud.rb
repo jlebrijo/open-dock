@@ -11,13 +11,14 @@ class GoogleCloud < Provider
                                     size_gb: config["disk_size_gb"],
                                     zone_name: config["zone_name"],
                                     source_image: config["source_image"]
-
+    disk.wait_for{ disk.ready? }
     server = @connection.servers.bootstrap name: config["name"].parameterize,
                                            machine_type: config["machine_type"],
                                            zone_name: config["zone_name"],
                                            disks: [disk.get_as_boot_disk(true)],
                                            user: config["user"],
                                            public_key_path: File.expand_path(config["public_key_path"])
+    server.wait_for{ server.ready? }
     server.set_disk_auto_delete true, server.disks[0]["deviceName"]
 
     ip = server.network_interfaces[0]["accessConfigs"][0]["natIP"]

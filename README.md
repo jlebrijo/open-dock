@@ -49,17 +49,29 @@ TODO: Create more providers (aws, linode, gcloud, ...)
 
 ### Digital Ocean
 
-For a Digital Ocean provider create a file (ops/providers/digitalocean.yml) with your account API key:
+Pre-requisites:
+
+* Create DigitalOcean account
+* Activate Read/Write token at: DigitalOcean console > Apps & API > Generate new token. Be sure to give write permissions.
+
+For a Digital Ocean provider create a file (ops/providers/digital_ocean.yml) with your account API key:
 
 ```yml
 token: a206ae60dda6bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcf0cbf41
 ```
 
-Token can be activated in your DigitaOcean console > Apps & API > Generate new token. Be sure to give write premissions.
-
 ### Google Cloud
 
-To configure Google Cloud provider create a file (ops/providers/digitalocean.yml) with these params:
+Pre-requisites:
+
+* Create GoogleCloud account
+* Create a Project at the console
+* Create a service account in the project console:
+    * [Here the instructions](https://developers.google.com/accounts/docs/OAuth2ServiceAccount#creatinganaccount)
+    * Download the .p12 file (for the ‘google_key_location’ parameter) and annotate ‘google_client_email’
+* Create a firewall rule to connect properly the servers (i.e. Allow tcp:1-65535): Project console > Compute > Compute Engine > Networks > default> Firewall rules > Create New
+
+To configure Google Cloud provider create a file (ops/providers/digital_ocean.yml) with these params:
 
 ```yml
 google_client_email: "850xxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxtauvbl@developer.gserviceaccount.com"
@@ -67,11 +79,16 @@ google_project: "project_name"
 google_key_location: "path_to_your_p12_file"
 ```
 
-You can see how to create ‘google_key_location’ and ‘google_client_email’ at https://developers.google.com/accounts/docs/OAuth2ServiceAccount#creatinganaccount
+You can see how to create  at https://developers.google.com/accounts/docs/OAuth2ServiceAccount#creatinganaccount
 
 ## Configure HOST
 
 With these files you can configure your instances/servers/droplets/ships on every provider you have configured in the last point.
+
+Helpful commands:
+
+* `ops list digital_ocean` list all possible parameter values to use in the yml file
+* `ops create example.com` will create your host
 
 ### Digital Ocean Host
 
@@ -88,11 +105,6 @@ ssh_keys:
   - e7:51:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:88:57
 ```
 
-Helpful commands:
-
-* `ops list digital_ocean` list all possible parameter values to use in the yml file
-* `ops create example.com` will create your host
-
 ### Google Cloud Host
 
 For a Google Cloud host we can make the following file (ops/hosts/example.com.yml):
@@ -107,11 +119,6 @@ public_key_path: ~/.ssh/id_rsa.pub
 source_image: coreos-stable-444-5-0-v20141016
 disk_size_gb: 10
 ```
-
-Helpful commands:
-
-* `ops list google_cloud` list all possible parameter values to use in the yml file
-* `ops create example.com` will create your host
 
 ##Configure hosted CONTAINERS (Docker)
 

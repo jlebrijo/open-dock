@@ -124,6 +124,7 @@ In this file we can configure all containers to run in the host provided in the 
 
 ```yml
 www:
+  hostname: lebrijo.com
   image: jlebrijo/prun
   ports:
     - '2222:22'
@@ -139,10 +140,11 @@ www:
 # POST-CONDITIONS: execute after build the container:
   post-conditions:
     - sshpass -p 'J3mw?$_6' ssh-copy-id -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa.pub root@lebrijo.com -p 2222
-    - ssh root@lebrijo.com -p 2222 "echo 'root:K8rt$_?1' | chpasswd"
+    - ssh root@lebrijo.com -p 2222 "echo 'root:Kxxxxx1' | chpasswd"
 
 # here you can create other containers
 # db:
+#   hostname: db.lebrijo.com
 #   image: ubuntu/postgresql
 ```
 

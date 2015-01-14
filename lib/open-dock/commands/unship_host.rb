@@ -5,11 +5,18 @@ command :unship do |c|
   c.example "", 'ops unship example.com'
   c.action do |args, options|
     host = args[0]
-    user = Ops::get_user_for(host)
 
-    Net::SSH.start(host, user) do |ssh|
+    if host == "localhost"
       Docker::containers_for(host).each do |container_name, config|
-        ssh.exec "docker rm -f #{container_name}"
+        system "docker rm -f #{container_name}"
+      end
+    else
+      user = Ops::get_user_for(host)
+
+      Net::SSH.start(host, user) do |ssh|
+        Docker::containers_for(host).each do |container_name, config|
+          ssh.exec "docker rm -f #{container_name}"
+        end
       end
     end
   end

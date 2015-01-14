@@ -150,6 +150,14 @@ www:
 
 `ops ship example.com` will create all containers configured on 'containers/example.com.yml' file
 
+### Shipping your local Docker
+
+You can create a file `containers/localhost.yml` where you can define containers. And launch them on your workstation:
+
+```
+ops ship localhost
+```
+
 ## TODO: Configure Containers (are nodes, with  Chef)
 
 Configuration with chef commands
@@ -231,3 +239,7 @@ Or integrate it within your Chef infrastructure project. Just add the gem to you
 * Added Google Cloud as provider
 * Now providers files are called underscored: digital_ocean, google_cloud ....
 * In hosts YAML files we should include which provider will be built (i.e. provider: digital_ocean)
+
+### v0.1.0
+
+* Launch local containers with `containers/localhost.yml` and `ops ship localhost`

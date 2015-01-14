@@ -5,7 +5,7 @@ command :ship do |c|
   c.example "Create a container called 'www' in the host example.com. This is described in '#{Ops::CONTAINERS_DIR}/example.com.yml' like:\n    #      www:\n    #        detach: true\n    #        image: jlebrijo/prun\n    #        ports:\n    #          - '2222:22'\n    #          - '80:80'", 'ops ship example.com'
   c.action do |args, options|
     host = args[0]
-    user = Ops::get_user_for(host)
+    user = Ops::get_user_for(host) unless host == "localhost"
 
     Docker::containers_for(host).each do |container_name, config|
       ports = config["ports"].map{|port| "-p #{port}"}.join(" ")
@@ -14,10 +14,15 @@ command :ship do |c|
         options << "--#{option}=#{value}"
       end
       say "Container '#{container_name}' loading on #{host}, please wait ....\n"
-      Net::SSH.start(host, user) do |ssh|
-        command = "docker run #{options.join(" ")} --name #{container_name} #{ports} #{config["image"]} #{config["command"]}"
-        say "Docker CMD: #{command}\n"
-        ssh.exec command
+      command = "docker run #{options.join(" ")} --name #{container_name} #{ports} #{config["image"]} #{config["command"]}"
+      if host == "localhost"
+        system command
+      else
+        Net::SSH.start(host, user) do |ssh|
+
+          say "Docker CMD: #{command}\n"
+          ssh.exec command
+        end
       end
       sleep 5
       config["post-conditions"].each { |c| system c }

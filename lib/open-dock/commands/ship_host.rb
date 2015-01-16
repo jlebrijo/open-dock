@@ -17,14 +17,16 @@ command :ship do |c|
       command = "docker run #{options.join(" ")} --name #{container_name} #{ports} #{config["image"]} #{config["command"]}"
       say "Docker CMD: #{command}\n"
       if host.include? "localhost"
-        system command
+        system "#{command} ; #{Docker::copy_ssh_credentials_command(container_name)}"
       else
         Net::SSH.start(host, user) do |ssh|
-          ssh.exec command
+          ssh.exec "#{command} ; #{Docker::copy_ssh_credentials_command(container_name)}"
         end
       end
-      sleep 5
-      config["post-conditions"].each { |c| system c }
+      if config["post-conditions"]
+        sleep 5
+        config["post-conditions"].each { |c| system c }
+      end
     end
   end
 end

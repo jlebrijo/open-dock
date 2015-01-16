@@ -138,9 +138,9 @@ www:
 #  cpuset: 0-7
 
 # POST-CONDITIONS: execute after build the container:
-  post-conditions:
-    - sshpass -p 'J3mw?$_6' ssh-copy-id -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa.pub root@lebrijo.com -p 2222
-    - ssh root@lebrijo.com -p 2222 "echo 'root:Kxxxxx1' | chpasswd"
+#  post-conditions:
+#    - sshpass -p 'J3mw?$_6' ssh-copy-id -o 'StrictHostKeyChecking no' -i ~/.ssh/id_rsa.pub root@lebrijo.com -p 2222
+#    - ssh root@lebrijo.com -p 2222 "echo 'root:Kxxxxx1' | chpasswd"
 
 # here you can create other containers
 # db:
@@ -149,6 +149,8 @@ www:
 ```
 
 `ops ship example.com` will create all containers configured on 'containers/example.com.yml' file
+
+Note: host SSH credentials (id_rsa.pub and authorized_keys) are copied by default to container, in order to have the same access to conainer.
 
 ### Shipping your local Docker
 
@@ -160,7 +162,7 @@ ops ship localhost.example.com
 
 By convention:
 
-* If [host_name] include "localhost" string, it is assumed that containers are shipped on local workstation
+* If [host_name] includes "localhost" string, it is assumed that containers are shipped as docker containers in local workstation
 
 ## Configure Containers (are nodes for Chef)
 
@@ -189,6 +191,7 @@ Create/delete domain names, create/delete hosts and ship/unship hosts:
 * `ops unship HOST_NAME`
 * TODO: `ops reship HOST_NAME` unship/ship all containers from host.
 * `ops configure HOST_NAME` configure all containers with chef.
+* TODO: `ops ssh [CONTAINER_NAME] HOST_NAME` ssh connection to host or container
 
 ## Create your infrastructure project (/ops)
 
@@ -263,3 +266,7 @@ Create command `ops configure [host_name]` this will cook all containers. By con
 * Each container configuration is defined in a Chef node: `nodes/[container_name].[host_name].json`
 * Then you have to create all container name records in your DNS provider: `[container_name].[host_name]   CNAME   [host_name].`
 * If [host_name] include "localhost" string, it is assumed that containers are shipped on local workstation
+
+### v0.1.2
+
+* Delete post-conditions from containers files. By default host credentials are passed to conainers.

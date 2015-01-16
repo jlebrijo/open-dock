@@ -6,7 +6,7 @@ command :unship do |c|
   c.action do |args, options|
     host = args[0]
 
-    if host == "localhost"
+    if host.include? "localhost"
       Docker::containers_for(host).each do |container_name, config|
         system "docker rm -f #{container_name}"
       end

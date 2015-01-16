@@ -1,11 +1,11 @@
 command :ship do |c|
   c.summary = 'Create Docker containers defined in ops/containers/[host_name].yml'
-  c.syntax = 'ops ship host [host_name]'
+  c.syntax = 'ops ship [host_name]'
   c.description = "Create all docker containers described in #{Ops::CONTAINERS_DIR}/[host_name].yml"
   c.example "Create a container called 'www' in the host example.com. This is described in '#{Ops::CONTAINERS_DIR}/example.com.yml' like:\n    #      www:\n    #        detach: true\n    #        image: jlebrijo/prun\n    #        ports:\n    #          - '2222:22'\n    #          - '80:80'", 'ops ship example.com'
   c.action do |args, options|
     host = args[0]
-    user = Ops::get_user_for(host) unless host == "localhost"
+    user = Ops::get_user_for(host) unless host.include? "localhost"
 
     Docker::containers_for(host).each do |container_name, config|
       ports = config["ports"].map{|port| "-p #{port}"}.join(" ")
@@ -15,12 +15,11 @@ command :ship do |c|
       end
       say "Container '#{container_name}' loading on #{host}, please wait ....\n"
       command = "docker run #{options.join(" ")} --name #{container_name} #{ports} #{config["image"]} #{config["command"]}"
-      if host == "localhost"
+      say "Docker CMD: #{command}\n"
+      if host.include? "localhost"
         system command
       else
         Net::SSH.start(host, user) do |ssh|
-
-          say "Docker CMD: #{command}\n"
           ssh.exec command
         end
       end

@@ -43,9 +43,9 @@ containers
 
 ## Configure PROVIDER
 
-`ops list` command will list all providers suported by this gem.
+`ops list` command will list all providers supported by this gem.
 
-TODO: Create more providers (aws, linode, gcloud, ...)
+TODO: Create more providers (vagrant, aws, linode, gcloud, ...)
 
 ### Digital Ocean
 
@@ -152,18 +152,29 @@ www:
 
 ### Shipping your local Docker
 
-You can create a file `containers/localhost.yml` where you can define containers. And launch them on your workstation:
+You can create a file `containers/localhost.example.com.yml` where you can define containers. And launch them on your workstation:
 
 ```
-ops ship localhost
+ops ship localhost.example.com
 ```
 
-## TODO: Configure Containers (are nodes, with  Chef)
+By convention:
+
+* If [host_name] include "localhost" string, it is assumed that containers are shipped on local workstation
+
+## Configure Containers (are nodes for Chef)
 
 Configuration with chef commands
 
-* `ops configure CONTAINER_NAME HOST_NAME`: configure with chef a container in host. Here you need to install knife-solo gem.
-    * knife solo cook [container_user]@[HOST_NAME] -p [container_ssh_port]
+* `ops configure HOST_NAME`: configure with chef all containers in host. Here you need to install knife-solo gem.
+    * Equivalent to: knife solo cook root@[HOST_NAME] -p [each container_ssh_port]
+    * `--container CONTAINER_NAME` to configure one container (default: '--container all')
+
+By convention:
+
+* "root" is the user in all containers
+* Each container configuration is defined in a Chef node: `nodes/[container_name].[host_name].json`
+* Then you have to create all container name records in your DNS provider: `[container_name].[host_name]   CNAME   [host_name].`
 
 ## Commands
 
@@ -177,7 +188,7 @@ Create/delete domain names, create/delete hosts and ship/unship hosts:
 * `ops ship HOST_NAME` run the containers in the host.
 * `ops unship HOST_NAME`
 * TODO: `ops reship HOST_NAME` unship/ship all containers from host.
-* TODO: `ops configure CONTAINER_NAME HOST_NAME` configure container with chef.
+* `ops configure HOST_NAME` configure all containers with chef.
 
 ## Create your infrastructure project (/ops)
 
@@ -198,7 +209,7 @@ source 'https://rubygems.org'
 
 gem 'open-dock'
 
-# OPTIONAL: Add next gems if you want to integrate with Chef as Configuration management tecnology
+# OPTIONAL: Add next gems if you want to integrate with Chef as Configuration management technology
 gem 'knife-solo'
 gem 'librarian-chef'
 gem 'foodcritic'
@@ -243,3 +254,12 @@ Or integrate it within your Chef infrastructure project. Just add the gem to you
 ### v0.1.0
 
 * Launch local containers with `containers/localhost.yml` and `ops ship localhost`
+
+### v0.1.1
+
+Create command `ops configure [host_name]` this will cook all containers. By convention:
+
+* "root" is the user in all containers
+* Each container configuration is defined in a Chef node: `nodes/[container_name].[host_name].json`
+* Then you have to create all container name records in your DNS provider: `[container_name].[host_name]   CNAME   [host_name].`
+* If [host_name] include "localhost" string, it is assumed that containers are shipped on local workstation

@@ -4,6 +4,7 @@ require 'net/ssh'
 require 'open-dock/base'
 require 'open-dock/providers'
 require 'open-dock/docker'
+require 'open-dock/chef'
 require 'open-dock/version'
 
 program :name, 'ops'

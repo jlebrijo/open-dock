@@ -19,7 +19,7 @@ module Docker
       # Container folder
       if sudo test -d "/var/lib/docker/aufs"; then
         CONTAINERS_DIR=/var/lib/docker/aufs/mnt
-      elif sudo test -d "/var/lib/docker/aufs"; then
+      elif sudo test -d "/var/lib/docker/btrfs"; then
         CONTAINERS_DIR=/var/lib/docker/btrfs/subvolumes
       fi
 
@@ -36,6 +36,11 @@ module Docker
       sudo cat ~/.ssh/id_rsa.pub | sudo tee -a $SSH_DIR/authorized_keys
       sudo chmod 600 $SSH_DIR/authorized_keys
     EOH
+  end
+
+
+  def self.get_container_port(container_config)
+    container_config["ports"].select{|port| port.end_with? ":22"}[0].split(':')[0]
   end
 
 end

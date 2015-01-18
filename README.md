@@ -175,8 +175,7 @@ Configuration with chef commands
 By convention:
 
 * "root" is the user in all containers
-* Each container configuration is defined in a Chef node: `nodes/[container_name].[host_name].json`
-* Then you have to create all container name records in your DNS provider: `[container_name].[host_name]   CNAME   [host_name].`
+* Each container configuration is defined in a Chef node: `nodes/[host_name]/[container_name].json`
 
 ## Commands
 
@@ -191,7 +190,7 @@ Create/delete domain names, create/delete hosts and ship/unship hosts:
 * `ops unship HOST_NAME`
 * TODO: `ops reship HOST_NAME` unship/ship all containers from host.
 * `ops configure HOST_NAME` configure all containers with chef.
-* TODO: `ops ssh [CONTAINER_NAME] HOST_NAME` ssh connection to host or container
+* `ops ssh HOST_NAME [CONTAINER_NAME]` ssh connection to host or container
 
 ## Create your infrastructure project (/ops)
 
@@ -270,3 +269,8 @@ Create command `ops configure [host_name]` this will cook all containers. By con
 ### v0.1.2
 
 * Delete post-conditions from containers files. By default host credentials are passed to conainers.
+
+### v0.1.3
+
+* Chef containers configuration files goes to nodes/[host_name]/[container_name].json
+* Create ssh connections commands: 'ops ssh [host_name] [container_name]'

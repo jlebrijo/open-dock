@@ -12,16 +12,12 @@ command :configure do |c|
 
     if options.container == "all"
       containers.each do |container_name, config|
-        ssh_port = get_port config
+        ssh_port = Docker::get_container_port config
         Chef::cook(user,container_name, host, ssh_port)
       end
     else
-      ssh_port = get_port containers[options.container]
+      ssh_port = Docker::get_container_port containers[options.container]
       Chef::cook(user, options.container, host, ssh_port)
     end
-  end
-
-  def get_port(config)
-    config["ports"].select{|port| port.end_with? ":22"}[0].split(':')[0]
   end
 end

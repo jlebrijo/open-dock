@@ -6,7 +6,7 @@ command :ssh do |c|
   c.example "Connects to a container:", 'ops ssh example.com www'
   c.action do |args, options|
     host = args[0]
-    user = Docker::DEFAULT_USER
+    user = Ops::DEFAULT_USER
 
     if args.count == 1
       ssh_port = 22

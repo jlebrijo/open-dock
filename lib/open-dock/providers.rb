@@ -7,7 +7,7 @@ class Provider
     begin
       config = YAML.load_file config_file
     rescue
-      raise "Please, create '#{config_file}' file following gem instrunctions"
+      raise "Please, create '#{config_file}' file following gem instructions"
     end
     create_connection config
   end

@@ -88,6 +88,8 @@ Helpful commands:
 * `ops list digital_ocean` list all possible parameter values to use in the yml file
 * `ops create example.com` will create your host
 
+By default `user` to connect to host will be 'root' if not configured.
+
 ### Digital Ocean Host
 
 For a Digital Ocean host we can make the following file (ops/hosts/example.com.yml):
@@ -126,7 +128,7 @@ In this file we can configure all containers to run in the host provided in the 
 
 ```yml
 www:
-  hostname: lebrijo.com
+  hostname: example.com
   image: jlebrijo/prun
   ports:
     - '2222:22'

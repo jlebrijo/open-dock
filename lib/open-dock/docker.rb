@@ -3,7 +3,6 @@ require 'yaml'
 
 module Docker
   SPECIAL_OPTS = ["image", "ports", "command", "post-conditions"]
-  DEFAULT_USER = "root"
 
   def self.containers_for(host_name)
     config_file = "#{Ops::CONTAINERS_DIR}/#{host_name}.yml"

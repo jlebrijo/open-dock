@@ -7,7 +7,7 @@ command :configure do |c|
   c.action do |args, options|
     options.default container: 'all'
     host = args[0]
-    user = Docker::DEFAULT_USER
+    user = Ops::DEFAULT_USER
     containers = Docker::containers_for(host)
 
     if options.container == "all"

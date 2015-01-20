@@ -2,15 +2,16 @@ module Ops
   HOSTS_DIR = "hosts"
   CONTAINERS_DIR = "containers"
   PROVIDERS_DIR = "providers"
-
+  DEFAULT_USER = "root"
 
   def self.get_user_for(host_name)
     host_file = "#{HOSTS_DIR}/#{host_name}.yml"
-    begin
+    if File.exist? host_file
       params = YAML.load_file host_file
-      params["user"]
-    rescue
-      raise "Please, create '#{host_file}' configuring your host"
+      if params and params.has_key? "user"
+        return params["user"]
+      end
     end
+    return DEFAULT_USER
   end
 end

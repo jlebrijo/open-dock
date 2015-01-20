@@ -16,16 +16,20 @@ module Docker
 
   def self.copy_ssh_credentials_command(container_name)
     <<-EOH
+      ID=$(docker inspect -f   '{{.Id}}' #{container_name})
       # Container folder
       if sudo test -d "/var/lib/docker/aufs"; then
         CONTAINERS_DIR=/var/lib/docker/aufs/mnt
+        SSH_DIR=$CONTAINERS_DIR/$ID/root/.ssh
       elif sudo test -d "/var/lib/docker/btrfs"; then
         CONTAINERS_DIR=/var/lib/docker/btrfs/subvolumes
+        SSH_DIR=$CONTAINERS_DIR/$ID/root/.ssh
+      elif sudo test -d "/var/lib/docker/devicemapper"; then
+        CONTAINERS_DIR=/var/lib/docker/devicemapper/mnt
+        SSH_DIR=$CONTAINERS_DIR/$ID/rootfs/root/.ssh
       fi
 
-      ID=$(docker inspect -f   '{{.Id}}' #{container_name})
-      SSH_DIR=$CONTAINERS_DIR/$ID/root/.ssh
-      echo SSH container folder is $SSH_DIR
+      echo SSH container folder: $SSH_DIR
       if sudo test ! -d "$SSH_DIR" ; then
         sudo mkdir $SSH_DIR
       fi

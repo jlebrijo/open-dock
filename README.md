@@ -120,6 +120,8 @@ disk_size_gb: 10
 
 ##Configure hosted CONTAINERS (Docker)
 
+To use this command you need [Docker](https://docs.docker.com/installation/) installed in the server.
+
 In this file we can configure all containers to run in the host provided in the name:
 
 ```yml
@@ -150,7 +152,7 @@ www:
 
 `ops ship example.com` will create all containers configured on 'containers/example.com.yml' file
 
-Note: host SSH credentials (id_rsa.pub and authorized_keys) are copied by default to container, in order to have the same access to conainer.
+Note: host SSH credentials (id_rsa.pub and authorized_keys) are copied by default to container, in order to have the same access to container.
 
 ### Shipping your local Docker
 
@@ -166,6 +168,11 @@ By convention:
 
 ## Configure Containers (are nodes for Chef)
 
+To use this command you need:
+
+* Chef installed in your nodes
+* SSHd running in your nodes
+
 Configuration with chef commands
 
 * `ops configure HOST_NAME`: configure with chef all containers in host. Here you need to install knife-solo gem.
@@ -174,8 +181,29 @@ Configuration with chef commands
 
 By convention:
 
-* "root" is the user in all containers
+* "root" is the user by default in all containers
 * Each container configuration is defined in a Chef node: `nodes/[host_name]/[container_name].json`
+
+```
+# Configure all containers in 'example.com' host
+ops configure example.com
+# Configure 'www' container in 'example.com' host
+ops configure example.com --container www
+# == knife solo cook root@example.com nodes/example.com/www.json -p 2222
+```
+
+## SSH connections
+
+SSH connection to host or container:
+
+```
+ops ssh HOST_NAME [CONTAINER_NAME]
+```
+
+Assuming SSHd installed in containers and hosts, you can
+
+* Access to host: `ops ssh example.com` equivalent to `ssh root@example.com`
+* Access to 'www' container: `ops ssh example.com www` equivalent to `ssh root@example.com -p 2222`
 
 ## Commands
 

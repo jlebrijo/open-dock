@@ -45,8 +45,6 @@ containers
 
 `ops list` command will list all providers supported by this gem.
 
-TODO: Create more providers (vagrant, aws, linode, gcloud, ...)
-
 ### Digital Ocean
 
 Pre-requisites:
@@ -89,6 +87,25 @@ Helpful commands:
 * `ops create example.com` will create your host
 
 By default `user` to connect to host will be 'root' if not configured.
+
+### Vagrant Host
+
+With Vagrant we do not need provider file anymore. But obviously qyou need to have installed in your workstation:
+
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* [Vagrant](https://www.vagrantup.com/downloads.html)
+
+For a Vagrant host we can make the following file (ops/hosts/example.com.yml):
+
+```yml
+provider: vagrant
+user: root   # User to connect the host
+memory:     2048
+ip:         192.168.33.20
+box:        ubuntu/trusty64  ## Search on https://atlas.hashicorp.com
+```
+
+`ops create example.com` will create Vagrantfile, so you can suspend it `vagrant suspend` or manipulate with vagrant commands.
 
 ### Digital Ocean Host
 
@@ -212,6 +229,7 @@ Assuming SSHd installed in containers and hosts, you can
 Create/delete domain names, create/delete hosts and ship/unship hosts:
 
 * TODO: `ops init` initialize needed folders and example files
+* TODO: `ops list` shows all providers for this gem. Create more providers (aws, linode, gcloud, ...)
 * `ops create HOST_NAME` create the host defined by the name of the file in the 'ops/hosts' folder.
 * `ops delete HOST_NAME`
 * TODO: `ops recreate HOST_NAME` delete/create the host.
@@ -221,6 +239,7 @@ Create/delete domain names, create/delete hosts and ship/unship hosts:
 * TODO: `ops reship HOST_NAME` unship/ship all containers from host.
 * `ops configure HOST_NAME` configure all containers with chef.
 * `ops ssh HOST_NAME [CONTAINER_NAME]` ssh connection to host or container
+* TODO: `ops graph` creates a graphic with all hosts and nodes in the project
 
 ## Create your infrastructure project (/ops)
 
@@ -304,3 +323,7 @@ Create command `ops configure [host_name]` this will cook all containers. By con
 
 * Chef containers configuration files goes to nodes/[host_name]/[container_name].json
 * Create ssh connections commands: 'ops ssh [host_name] [container_name]'
+
+### v0.1.8
+
+* Including Vagrant provider

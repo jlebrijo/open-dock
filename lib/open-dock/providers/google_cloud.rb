@@ -1,6 +1,6 @@
 require "fog"
 require "google/api_client"
-Fog::VERSION=1
+# Fog::VERSION=1
 I18n.enforce_available_locales = false
 
 class GoogleCloud < Provider

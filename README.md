@@ -2,9 +2,11 @@
 
 Gem for orchestrating the creation of infrastructures of hosts and containers. You can manage CREATION (in any provider: DigitalOcean, Gcloud, vagrant for the moment), SHIPPING (with docker containers) and CONFIGURING (with Chef). All with 3 commands per host:
 
-1. `ops create prod.exaple.com`: Create hosts from all possible cloud providers (i.e.: DigitalOcean, GCloud, Rackspace, Linode ...).
-1. `ops ship prod.exaple.com`: Ship those hosts with Docker containers.
-1. `ops cconfigure prod.exaple.com`: Build Chef cookbooks and configure/re-configure your servers.
+1. `ops create prod.example.com`: Create hosts from all possible cloud providers (i.e.: DigitalOcean, GCloud, Rackspace, Linode ...).
+1. `ops ship prod.example.com`: Ship those hosts with Docker containers.
+1. `ops configure prod.example.com`: Build Chef cookbooks and configure/re-configure your servers.
+
+![Infograph](infograph.png)
 
 ## Installation
 
@@ -245,7 +247,7 @@ Create/delete domain names, create/delete hosts and ship/unship hosts:
 
 OPS command is focused to cover first Provision configurations for a the Operations of your infrastructure.
 
-You can create an infrastructure project (like me [/ops](https://github.com/jlebrijo/ops)) 
+You can create an infrastructure project (like me [/ops](https://github.com/jlebrijo/ops))
 
 ```
 mkdir ops && cd ops
@@ -288,7 +290,7 @@ Or integrate it within your Chef infrastructure project. Just add the gem to you
 
 ### v0.0.10
 
-* First publication: split 'open-dock' gem from 'prun-ops' gem 
+* First publication: split 'open-dock' gem from 'prun-ops' gem
 
 ### v0.0.11
 

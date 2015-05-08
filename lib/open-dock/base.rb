@@ -2,6 +2,7 @@ module Ops
   HOSTS_DIR = "hosts"
   CONTAINERS_DIR = "containers"
   PROVIDERS_DIR = "providers"
+  NODES_DIR = "nodes"
   DEFAULT_USER = "root"
 
   def self.get_user_for(host_name)

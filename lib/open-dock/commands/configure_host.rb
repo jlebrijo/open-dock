@@ -10,14 +10,19 @@ command :configure do |c|
     user = Ops::DEFAULT_USER
     containers = Docker::containers_for(host)
 
-    if options.container == "all"
-      containers.each do |container_name, config|
-        ssh_port = Docker::get_container_port config
-        Chef::cook(user,container_name, host, ssh_port)
-      end
+    if File.exists? "#{Ops::NODES_DIR}/#{host}.json" # Not a container ship
+      Chef::install(user, host)
+      Chef::cook(user, host)
     else
-      ssh_port = Docker::get_container_port containers[options.container]
-      Chef::cook(user, options.container, host, ssh_port)
+      if options.container == "all"
+        containers.each do |container_name, config|
+          ssh_port = Docker::get_container_port config
+          Chef::cook_container(user,container_name, host, ssh_port)
+        end
+      else
+        ssh_port = Docker::get_container_port containers[options.container]
+        Chef::cook_container(user, options.container, host, ssh_port)
+      end
     end
   end
 end

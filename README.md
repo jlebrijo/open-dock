@@ -1,4 +1,4 @@
-# ![logo](logo.jpg)
+#   ![logo](logo.jpg)
 
 Gem for orchestrating the creation of infrastructures of hosts and containers. You can manage CREATION (in any provider: DigitalOcean, Gcloud, vagrant for the moment), SHIPPING (with docker containers) and CONFIGURING (with Chef). All with 3 commands per host:
 
@@ -43,7 +43,7 @@ containers
   example.com.yml
 ```
 
-## Configure PROVIDER
+## Adding PROVIDER (/providers)
 
 `ops list` command will list all providers supported by this gem.
 
@@ -79,7 +79,7 @@ google_project: "project_name"
 google_key_location: "path_to_your_p12_file"
 ```
 
-## Configure HOST
+## Creating HOST (/hosts)
 
 With these files you can configure your instances/servers/droplets/ships on every provider you have configured in the last point.
 
@@ -139,7 +139,7 @@ source_image: coreos-stable-444-5-0-v20141016
 disk_size_gb: 10
 ```
 
-##Configure hosted CONTAINERS (Docker)
+## Shipping hosted CONTAINERS (/containers)
 
 To use this command you need [Docker](https://docs.docker.com/installation/) installed in the server.
 
@@ -187,12 +187,13 @@ By convention:
 
 * If [host_name] includes "localhost" string, it is assumed that containers are shipped as docker containers in local workstation
 
-## Configure Containers (are nodes for Chef)
+## Configuring Host (/nodes)
 
-To use this command you need:
+Configuration with Chef:
 
-* Chef installed in your nodes
-* SSHd running in your nodes
+* Install Chef and configure host from `nodes/[host_name].json` file
+* Configure all containers in a Host from `nodes/[host_name]/*` containers.
+* Configure specific container in a Host from `nodes/[host_name]/[container_name]` containers.
 
 Configuration with chef commands
 
@@ -204,8 +205,12 @@ By convention:
 
 * "root" is the user by default in all containers
 * Each container configuration is defined in a Chef node: `nodes/[host_name]/[container_name].json`
+* If there is only a json file, is assumed a non-docker host:
+`nodes/[host_name].json`
 
 ```
+# Just configure host from example.com.json
+ops configure example.com
 # Configure all containers in 'example.com' host
 ops configure example.com
 # Configure 'www' container in 'example.com' host
@@ -329,3 +334,7 @@ Create command `ops configure [host_name]` this will cook all containers. By con
 ### v0.1.8
 
 * Including Vagrant provider
+
+### v0.1.14
+
+* Adding the posibility to configure non-docker hosts.

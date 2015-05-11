@@ -15,6 +15,7 @@ class Vagrant < Provider
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/tmp/id_rsa.pub"
   config.vm.provision "shell", inline: <<-SHELL
     # Copy host public key
+    mkdir -p /root/.ssh
     sudo mv /tmp/id_rsa.pub /root/.ssh/authorized_keys
     sudo chown root:root /root/.ssh/authorized_keys
     # Install docker

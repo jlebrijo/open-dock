@@ -7,13 +7,13 @@ command :configure do |c|
   c.action do |args, options|
     options.default container: 'all'
     host = args[0]
-    containers = Docker::containers_for(host)
 
     if File.exists? "#{Ops::NODES_DIR}/#{host}.json" # Not a container ship
       user = Ops::get_user_for(host)
       Chef::install(user, host)
       Chef::cook(user, host)
     else
+      containers = Docker::containers_for(host)
       user = Ops::DEFAULT_USER
       if options.container == "all"
         containers.each do |container_name, config|

@@ -6,9 +6,9 @@ module Chef
         say 'Chef already installed'
       else
         say "Installing Chef, please wait ..."
-        ssh.exec! 'apt-get -y update; \
-                  apt-get -y install curl build-essential libxml2-dev libxslt-dev git ; \
-                  curl -L https://www.opscode.com/chef/install.sh | bash'
+        ssh.exec! 'sudo apt-get -y update; \
+                  sudo apt-get -y install curl build-essential libxml2-dev libxslt-dev git ; \
+                  curl -L https://www.opscode.com/chef/install.sh | sudo bash'
       end
     end
   end
